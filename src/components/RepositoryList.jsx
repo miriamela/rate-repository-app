@@ -61,7 +61,6 @@ const RepositoryList = () => {
         <RepositoryItem {...item} />
     );
 
-
     return (
         <FlatList data={repositories}
             ItemSeparatorComponent={ItemSeparator}

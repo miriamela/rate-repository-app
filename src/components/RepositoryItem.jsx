@@ -23,22 +23,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
-        // borderWidth: 1,
-        // borderStyle: "solid",
     },
     middleRow: {
         marginTop: 20,
         marginLeft: 70,
         marginBottom: 20,
-        // borderWidth: 1,
-        // borderStyle: "solid",
         borderRadius: 3,
         backgroundColor: themes.colors.tertiaryColor,
     },
     language: {
-        margin: 2,
+        margin: 7,
         color: themes.colors.white,
-        // fontSize: themes.fontSize.subheading,
     },
     lastRow: {
         width: 400,
@@ -46,16 +41,12 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
-        // borderWidth: 1,
-        // borderStyle: "solid",
     },
     each: {
         marginRight: 20,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // borderWidth: 1,
-        // borderStyle: "solid",
     }
 });
 
