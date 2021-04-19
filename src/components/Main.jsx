@@ -6,6 +6,7 @@ import SignIn from "./SignIn";
 import { StyleSheet, View } from "react-native";
 import { Route, Switch, Redirect } from "react-router-native";
 import themes from "../../themes";
+import SingleRepositoryView from "./SingleRepositoryView";
 
 const styles = StyleSheet.create({
     container: {
@@ -21,12 +22,9 @@ const Main = () => {
         <View style={styles.container}>
             <AppBar />
             <Switch>
-                <Route path="/" exact component={RepositoryList}>
-                    {/* <RepositoryList /> */}
-                </Route>
-                <Route to="/login" component={SignIn} >
-                    {/* <SignIn /> */}
-                </Route>
+                <Route path="/" exact component={RepositoryList} />
+                <Route path="/repository/:id" component={SingleRepositoryView} />
+                <Route path="/login" component={SignIn} />
                 <Redirect to="/" />
             </Switch>
         </View>

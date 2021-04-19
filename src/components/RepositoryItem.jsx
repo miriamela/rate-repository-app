@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
+import * as WebBrowser from 'expo-web-browser';
 import themes from "../../themes";
 import Text from "./Text";
 
@@ -47,6 +48,24 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+    },
+    text: {
+        color: themes.colors.white,
+    },
+    button: {
+        backgroundColor: themes.colors.tertiaryColor,
+        borderRadius: 5,
+        marginTop: 15,
+        margin: "auto",
+        width: 500,
+        height: 50,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    singleViewContainer: {
+        margin: 10,
     }
 });
 export const showNumber = (number) => {
@@ -58,7 +77,7 @@ export const showNumber = (number) => {
     }
 };
 
-const RepositoryItem = ({ fullName, description, language, stargazersCount, forksCount, reviewCount, ratingAverage, ownerAvatarUrl }) => {
+const RepositoryItem = ({ fullName, description, language, stargazersCount, forksCount, reviewCount, ratingAverage, ownerAvatarUrl, url, singleView }) => {
 
     return (
         <View style={styles.generalContainer}>
@@ -90,6 +109,17 @@ const RepositoryItem = ({ fullName, description, language, stargazersCount, fork
                     <Text>Rating</Text>
                 </View>
             </View>
+            <View>
+                {
+                    singleView && (
+                        <Pressable style={styles.button} onPress={() => WebBrowser.openBrowserAsync(url)}>
+                            <Text fontWeight="bold" style={styles.text}>Open in GitHub</Text>
+                        </Pressable>
+                    )
+
+                }
+            </View>
+
         </View >
     );
 };

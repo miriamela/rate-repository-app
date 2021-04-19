@@ -7,5 +7,4 @@ mutation authorize($username: String!, $password: String!){
         accessToken
     }
 }
-
 `;
