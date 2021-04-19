@@ -16,11 +16,16 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-router-native)"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
     ]
   },
   "dependencies": {
     "@apollo/client": "^3.3.14",
     "@react-native-async-storage/async-storage": "^1.15.2",
+    "@testing-library/jest-native": "^4.0.1",
+    "@testing-library/react-native": "^7.2.0",
     "dotenv": "^8.2.0",
     "expo": "~40.0.0",
     "expo-constants": "~9.3.3",
