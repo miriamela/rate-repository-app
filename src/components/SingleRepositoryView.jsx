@@ -26,7 +26,6 @@ const SingleRepositoryView = () => {
     let { id } = useParams();
     const { repository } = useRepository({ id });
     const { reviews } = useReviews({ id });
-    console.log(reviews);
     const reviewsNode = reviews ? reviews.edges.map(edge => edge.node) : [];
 
     return (

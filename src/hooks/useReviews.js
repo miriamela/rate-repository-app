@@ -6,13 +6,10 @@ const useReviews =({id})=>{
         fetchPolicy: 'cache-and-network',
         variables: {id}
     });
-    console.log(data);
     let reviews;
     if(!loading && data){
         reviews=data.repository.reviews;
     }
-    console.log(error);
-    console.log(reviews);
     return {reviews, error, loading};
 };
 

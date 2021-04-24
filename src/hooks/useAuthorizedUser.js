@@ -7,7 +7,6 @@ const useAuthorizedUser =()=>{
     });
     let user;
     if(!loading && data){
-        console.log(data);
         user= data.authorizedUser;
     }
  return {user, error, loading};

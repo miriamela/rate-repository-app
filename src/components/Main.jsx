@@ -4,6 +4,7 @@ import RepositoryList from "./RepositoryList";
 import AppBar from "./AppBar";
 import SignIn from "./SignIn";
 import CreateReview from "./CreateReview";
+import SignUp from "./SignUp";
 import { StyleSheet, View } from "react-native";
 import { Route, Switch, Redirect } from "react-router-native";
 import themes from "../../themes";
@@ -24,6 +25,7 @@ const Main = () => {
             <AppBar />
             <Switch>
                 <Route path="/" exact component={RepositoryList} />
+                <Route path="/sign-up" component={SignUp} />
                 <Route path="/create-review" component={CreateReview} />
                 <Route path="/repository/:id" component={SingleRepositoryView} />
                 <Route path="/login" component={SignIn} />

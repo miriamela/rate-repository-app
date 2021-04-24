@@ -60,8 +60,8 @@ const validationSchema = yup.object().shape({
     rating: yup
         .number()
         .required("Rating is required")
-        .min("Rating must be between 0 and 100")
-        .max("Rating must be between 0 and 100"),
+        .min(0, "Rating must be between 0 and 100")
+        .max(100, "Rating must be between 0 and 100"),
     text: yup
         .string()
 });

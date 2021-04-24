@@ -46,11 +46,11 @@ const LogOut = () => {
 };
 const AppBar = () => {
     const { user } = useAuthorizedUser();
-    console.log(user);
     return (
         <View style={styles.container}>
             <ScrollView horizontal style={styles.container2}>
                 <AppBarTab link="/" title="Repositories" />
+                {user === null && <AppBarTab link="/sign-up" title="Sign Up" />}
                 {user === null && <AppBarTab link="/login" title="Log In" />}
                 {user && <LogOut />}
                 {user && <AppBarTab link="/create-review" title="Create a review" />}
