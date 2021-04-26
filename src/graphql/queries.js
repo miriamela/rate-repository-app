@@ -14,8 +14,8 @@ fragment RepositoryDetails on Repository{
 `;
 
 export const GET_REPOSITORIES =gql`
-query{
-    repositories{
+query repositories ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
+    repositories (orderBy: $orderBy, orderDirection: $orderDirection){
         edges{
             node{
                 id
