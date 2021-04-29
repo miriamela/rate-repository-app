@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         color: themes.colors.white,
     },
     lastRow: {
-        width: 400,
+        width: "100%",
         paddingLeft: 20,
         display: "flex",
         flexDirection: "row",
@@ -52,12 +52,18 @@ const styles = StyleSheet.create({
     text: {
         color: themes.colors.white,
     },
+    containerButton: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        width: "100%"
+    },
     button: {
         backgroundColor: themes.colors.tertiaryColor,
         borderRadius: 5,
         marginTop: 15,
         margin: "auto",
-        width: 500,
+        width: "90%",
         height: 50,
         display: "flex",
         flexDirection: "column",
@@ -109,7 +115,7 @@ const RepositoryItem = ({ fullName, description, language, stargazersCount, fork
                     <Text>Rating</Text>
                 </View>
             </View>
-            <View>
+            <View style={styles.containerButton}>
                 {
                     singleView && (
                         <Pressable style={styles.button} onPress={() => WebBrowser.openBrowserAsync(url)}>

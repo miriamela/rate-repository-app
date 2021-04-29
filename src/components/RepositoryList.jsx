@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import RepositoryItem from "./RepositoryItem";
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import useRepositories from "../hooks/useRepositories";
-// import { useHistory } from "react-router-native";
-import RNPickerSelect from 'react-native-picker-select';
-// import themes from "../../themes";
-import { Searchbar, Button, Menu, Provider } from 'react-native-paper';
+import { useHistory } from "react-router-native";
+import themes from "../../themes";
+import { Searchbar } from 'react-native-paper';
 import { useDebounce } from 'use-debounce';
+import { Picker } from '@react-native-picker/picker';
 
 const styles = StyleSheet.create({
     separator: {
@@ -24,39 +24,19 @@ const styles = StyleSheet.create({
         // color: themes.colors.textPrimary,
     },
     searchBar: {
-        marginBottom: 15,
         width: "100%",
     },
-    menuElements: {
-        display: "flex",
-        flexDirection: 'column',
-        justifyContent: 'center',
+    orderMenuContainer: {
+        marginBottom: 20,
+        marginLeft: 15,
+        marginRight: 30,
     },
-    menuTitle: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "flex-start"
-    }
-    // inputIOS: {
-    //     borderWidth: 1,
-    //     height: 60,
-    //     fontSize: themes.fontSize.body,
-    //     paddingRight: 30,
+    orderMenu: {
+        backgroundColor: themes.colors.primaryColor,
+        borderColor: "transparent",
+        fontSize: themes.fontSize.subheading
 
-    // },
-    // inputAndroid: {
-    //     borderWidth: 1,
-    //     height: 60,
-    //     fontSize: themes.fontSize.body,
-    //     paddingRight: 30
-    // },
-    // inputWeb: {
-    //     borderWidth: 1,
-    //     height: 60,
-    //     fontSize: themes.fontSize.body,
-    //     paddingRight: 30
-    // }
+    },
 });
 
 const SearchBar = ({ searchValue, setSearchValue }) => {
@@ -70,56 +50,40 @@ const SearchBar = ({ searchValue, setSearchValue }) => {
     );
 };
 
+const OrderingMenu = ({ setOrder, order }) => {
+
+    return (
+        <View style={styles.orderMenuContainer}>
+            <Picker
+                style={styles.orderMenu}
+                selectedValue={order}
+                onValueChange={(itemValue) =>
+                    setOrder(itemValue)
+                }>
+                <Picker.Item label="Latest Repositories" value="LatestFirstReview" />
+                <Picker.Item label="Highest rated repositories" value="HightestRated" />
+                <Picker.Item label="Lowest rated repositories" value="LowestRated" />
+            </Picker>
+        </View>
+
+    );
+};
 
 const RepositoryListHeader = ({ searchValue, setSearchValue, order, setOrder }) => {
     console.log(order, searchValue);
     return (
         <>
             <View style={styles.container}>
-                {SearchBar({ searchValue, setSearchValue })}
+                <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
             </View>
             <View>
-                {OrderingMenu({ setOrder })}
+                <OrderingMenu setOrder={setOrder} order={order} />
             </View>
-
-            {/* <RNPickerSelect
-                onValueChange={(value) => setOrder(value)}
-                items={[
-                    { label: "Latest Repositories", value: "LatestFirstReview" },
-                    { label: "Highest rated repositories", value: "HightestRated" },
-                    { label: "Lowest rated repositories", value: "LowestRated" },
-                ]}
-                value={order}
-                modalViewMiddle
-            /> */}
-
         </>
     );
 };
 
-const OrderingMenu = ({ setOrder }) => {
-    const [visible, setVisible] = useState(false);
-    const openMenu = () => setVisible(true);
-    const closeMenu = () => setVisible(false);
-    return (
-        <Provider>
-            <View style={styles.menuTitle} contentStyle={styles.menuElements}>
-                <Menu
-                    visible={visible}
-                    onDismiss={closeMenu}
-                    anchor={<Button onPress={openMenu}>Select an Item...</Button>}
-                >
-                    <Menu.Item onPress={() => setOrder("LatestFirstReview")} title="Latest repositories" />
-                    <Menu.Item onPress={() => setOrder("HightestRated")} title="Highest rated repositories" />
-                    <Menu.Item onPress={() => setOrder("LowestRated")} title="Lowest rated repositories" />
-                </Menu>
-            </View >
-        </Provider>
-    );
-};
 export class RepositoryListContainer extends React.Component {
-
-
     renderHeader = () => {
         const props = this.props;
         return (
@@ -131,13 +95,6 @@ export class RepositoryListContainer extends React.Component {
             />
         );
     };
-    // history = useHistory();
-    goToRepository = (id) => {
-        console.log(this.props);
-        this.props.history.push({
-            pathname: `/repository/${id}`,
-        });
-    }
     ItemSeparator = () => {
         return (
             <View style={styles.separator} />
@@ -150,7 +107,7 @@ export class RepositoryListContainer extends React.Component {
             <FlatList
                 data={repositoriesNodes}
                 renderItem={({ item }) =>
-                    <Pressable onPress={() => this.goToRepository(item.id)}>
+                    <Pressable onPress={() => this.props.goToRepository(item.id)}>
                         <RepositoryItem {...item} />
                     </Pressable>
 
@@ -182,15 +139,18 @@ export class RepositoryListContainer extends React.Component {
 //     );
 // };
 
-// const ItemSeparator = () => (<View style={styles.separator} />);
-
 const RepositoryList = () => {
+    const history = useHistory();
     const [order, setOrder] = useState("LatestFirstReview");
     const [searchValue, setSearchValue] = useState("");
     const [value] = useDebounce(searchValue, 500);
 
+    const goToRepository = (id) => {
+        history.push(`/repository/${id}`);
+    };
+
     const { repositories } = useRepositories({ order, searchValue: value });
     console.log(repositories);
-    return <RepositoryListContainer searchValue={searchValue} setSearchValue={setSearchValue} order={order} setOrder={setOrder} repositories={repositories} />;
+    return <RepositoryListContainer goToRepository={goToRepository} searchValue={searchValue} setSearchValue={setSearchValue} order={order} setOrder={setOrder} repositories={repositories} />;
 };
 export default RepositoryList;
