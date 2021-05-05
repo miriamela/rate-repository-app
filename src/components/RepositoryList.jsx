@@ -13,23 +13,19 @@ const styles = StyleSheet.create({
         height: 10
     },
     container: {
-        margin: 15,
-        marginVertical: 5,
-        marginRight: 25,
-        height: 100,
+        padding: 15,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "flex-start",
-        // color: themes.colors.textPrimary,
     },
     searchBar: {
         width: "100%",
     },
     orderMenuContainer: {
-        marginBottom: 20,
+        marginBottom: 10,
         marginLeft: 15,
-        marginRight: 30,
+        marginRight: 15,
     },
     orderMenu: {
         backgroundColor: themes.colors.primaryColor,
@@ -114,6 +110,8 @@ export class RepositoryListContainer extends React.Component {
                 }
                 ItemSeparatorComponent={this.ItemSeparator}
                 ListHeaderComponent={this.renderHeader}
+                onEndReached={this.props.onEndReach}
+                onEndReachedThreshold={0.5}
             />
         );
     }
@@ -149,8 +147,12 @@ const RepositoryList = () => {
         history.push(`/repository/${id}`);
     };
 
-    const { repositories } = useRepositories({ order, searchValue: value });
+    const { repositories, fetchMore } = useRepositories({ order, searchValue: value, first: 10 });
+    const onEndReach = () => {
+        console.log("HERE");
+        fetchMore();
+    };
     console.log(repositories);
-    return <RepositoryListContainer goToRepository={goToRepository} searchValue={searchValue} setSearchValue={setSearchValue} order={order} setOrder={setOrder} repositories={repositories} />;
+    return <RepositoryListContainer onEndReach={onEndReach} goToRepository={goToRepository} searchValue={searchValue} setSearchValue={setSearchValue} order={order} setOrder={setOrder} repositories={repositories} />;
 };
 export default RepositoryList;

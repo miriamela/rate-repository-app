@@ -54,6 +54,7 @@ const AppBar = () => {
                 {user === null && <AppBarTab link="/login" title="Log In" />}
                 {user && <LogOut />}
                 {user && <AppBarTab link="/create-review" title="Create a review" />}
+                {user && <AppBarTab link="/my-reviews" title="My Reviews" />}
             </ScrollView>
         </View>
     );

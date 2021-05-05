@@ -14,14 +14,21 @@ fragment RepositoryDetails on Repository{
 `;
 
 export const GET_REPOSITORIES =gql`
-query repositories ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword:String) {
-    repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword:$searchKeyword){
+query repositories ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword:String, $first: Int, $after: String) {
+    repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword:$searchKeyword, first: $first, after: $after){
+        pageInfo{
+            hasNextPage
+            endCursor
+            startCursor
+        }
         edges{
             node{
                 id
             ...RepositoryDetails
             }
+            cursor
         }
+        
     }
 }
 ${REPOSITORY_DETAILS}
@@ -32,6 +39,22 @@ query{
     authorizedUser {
         id
         username
+        reviews{
+            totalCount
+            edges{
+                node{
+                    id
+                    repositoryId
+                    repository{
+                        id
+                        fullName
+                    }
+                    rating
+                    createdAt
+                    text
+                }
+            }
+        }
       }
 }
 `;
@@ -54,24 +77,34 @@ query repository ($id: ID!){
 
 `;
 export const GET_REVIEWS =gql`
-query repository ($id: ID!){
-    repository(id:$id){
+query repository ($id: ID!, $first: Int, $after: String){
+    repository (id:$id){
         id
         fullName
-        reviews {
-            edges {
-                node {
-                    id
-                    text
-                    rating
-                    createdAt
-                    user {
+        reviews (first: $first, after: $after){
+                totalCount
+                edges{
+                    node{
                         id
-                        username
+                        text
+                        rating
+                        createdAt
+                        repositoryId
+                        user{
+                            id
+                            username
+                        }
                     }
+                    cursor
                 }
-            }
+                pageInfo{
+                    endCursor
+                    startCursor
+                    hasNextPage
+                }
         }
+    
     }
 }
+
 `;
